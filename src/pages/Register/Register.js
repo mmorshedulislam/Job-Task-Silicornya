@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { AiOutlineCheck } from "react-icons/ai";
 
 const Register = () => {
   const [step, setStep] = useState(1);
@@ -101,7 +102,7 @@ const Register = () => {
               <p className="step">Security</p>
               <p className="step">Confirmation</p>
             </div>
-            <h2 className="text-center text-3xl my-8 font-semibold">
+            <h2 className="text-center text-3xl my-5 font-semibold">
               Personal Information
             </h2>
             <div className="my-3">
@@ -276,16 +277,22 @@ const Register = () => {
               <p className="step step-primary">Security</p>
               <p className="step step-primary">Confirmation</p>
             </div>
-            <p>Full Name: {formData.full_name}</p>
-            <p>Position: {formData.position}</p>
-            <p>Institute: {formData.institution_name}</p>
-            <p>education level: {formData.education_level}</p>
-            <p>work time: {formData.work_time}</p>
-            <p>Email: {formData.email}</p>
-            <p>Password: {formData.password}</p>
-            <p>Confirm Password: {formData.confirm_password}</p>
-            <button onClick={handlePrevious}>Previous</button>
-            <button>Submit</button>
+
+            <div className="mt-10 mb-5 flex items-center justify-center w-[200px] h-[200px] rounded-full bg-[#6078EA] border-[15px] border-[#CFD7F9] mx-auto">
+              <AiOutlineCheck size={70} color="white" />
+            </div>
+            <p className="text-center text-2xl font-semibold">Thank You</p>
+            <p className="text-[#9F9F9F] text-center w-48 mx-auto">
+              Account Has Been Created. Enjoy Job Task.{" "}
+            </p>
+            <div className="flex justify-center">
+              <Link
+                to={"/dashboard"}
+                className="border border-[#6078EA] rounded-md py-2 px-6 font-semibold text-[#6078EA] inline-block my-10"
+              >
+                Go To Home
+              </Link>
+            </div>
           </div>
         );
       default:
@@ -296,12 +303,17 @@ const Register = () => {
   return (
     <div className="container mx-auto text-[#333333] mt-10">
       <form onSubmit={handleSubmit}>{renderStep()}</form>
-      <p className="font-semibold text-center text-[#000000]">
-        Already Have An Account?{" "}
-        <Link to={"/login"} className="font-semibold text-[#6078EA] underline">
-          Log In
-        </Link>
-      </p>
+      {(step === 1 || step === 2) && (
+        <p className="font-semibold text-center text-[#000000]">
+          Already Have An Account?{" "}
+          <Link
+            to={"/login"}
+            className="font-semibold text-[#6078EA] underline"
+          >
+            Log In
+          </Link>
+        </p>
+      )}
     </div>
   );
 };
