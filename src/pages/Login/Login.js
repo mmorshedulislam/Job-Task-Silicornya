@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 const Login = () => {
   return (
-    <div className="container mx-auto">
-      <div className="max-w-1/2 w-1/2 mx-auto">
+    <div className="container mx-auto text-[#333333]">
+      <div className="lg:max-w-1/2 lg:w-1/2 mx-auto px-5">
         <h2 className="text-center text-3xl my-8 font-semibold">
           Welcome to Task Job
         </h2>
@@ -14,19 +14,19 @@ const Login = () => {
               Email Address*
             </label>
             <input
-              className="border border-black rounded-md px-3 py-2 w-full outline-none"
+              className="border border-[#333333] text-[#333333] rounded-md px-3 py-2 w-full outline-none mt-2"
               type="email"
               placeholder="Enter your Email"
             />
           </div>
           <div className="my-3">
             <label className="font-semibold" htmlFor="email">
-              Password
+              Password*
             </label>
             <input
-              className="border border-black rounded-md px-3 py-2 w-full outline-none"
+              className="border border-[#333333] text-[#333333] rounded-md px-3 py-2 w-full outline-none mt-2"
               type="password"
-              placeholder="Enter your Password"
+              placeholder="Enter Password"
             />
           </div>
           <div className="my-5">
@@ -37,7 +37,7 @@ const Login = () => {
             />
           </div>
         </form>
-        <p className="font-semibold text-center">
+        <p className="font-semibold text-center text-[#000000]">
           Don't Have An Account?{" "}
           <Link
             to={"/register"}
