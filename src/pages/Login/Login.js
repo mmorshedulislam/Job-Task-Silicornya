@@ -3,25 +3,25 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useLoginMutation } from "../../features/auth/authApi";
 import { getLoginData } from "../../features/auth/authSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { toast } from "react-hot-toast";
 
 const Login = () => {
   const { register, reset, handleSubmit } = useForm();
   const [loginUser, { data }] = useLoginMutation();
-  const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
+  // GET THE FORMDATA AND LOGIN USER
   const onSubmit = (data) => {
     loginUser(data);
     reset();
   };
 
+  // DISPATCH THE LOGIN DATA AND SAVE ACCESS TOKEN IN LOCAL STORAGE WITH TOAST SUCCESS MESSAGE
   if (data?.status) {
     dispatch(getLoginData(data?.data));
     localStorage.setItem("accessToken", data?.data?.token);
-    console.log(data);
-    console.log(state);
-    console.log(data?.data?.token);
+    toast.success(data?.message);
   }
 
   return (

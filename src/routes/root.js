@@ -1,12 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
 import Main from "../layouts/Main/Main";
-import Dashboard from "../layouts/Dashboard/Dashboard";
+import DashboardLayout from "../layouts/Dashboard/DashboardLayout";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import TeacherDashboard from "../pages/Dashboard/Teacher/TeacherDashboard";
 import StudentDashboard from "../pages/Dashboard/Student/StudentDashboard";
-import Register2 from "../pages/Register/Register2";
 
 const routes = createBrowserRouter([
   {
@@ -24,13 +23,13 @@ const routes = createBrowserRouter([
       },
       {
         path: "register",
-        element: <Register2 />,
+        element: <Register />,
       },
     ],
   },
   {
     path: "/dashboard",
-    element: <Dashboard />,
+    element: <DashboardLayout />,
     children: [
       {
         path: "teacher",

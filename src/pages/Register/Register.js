@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineCheck } from "react-icons/ai";
+import { useRegisterMutation } from "../../features/auth/authApi";
+import { toast } from "react-hot-toast";
 
 const Register = () => {
+  // STEP VALUE
   const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({
+
+  const initialFormDataState = {
     full_name: "",
     email: "",
     position: "",
@@ -13,9 +17,23 @@ const Register = () => {
     work_time: "",
     password: "",
     confirm_password: "",
-  });
+  };
 
+  // REGISTRATION FORM DATA
+  const [formData, setFormData] = useState(initialFormDataState);
+
+  // CONFIRM PASSWORD CHECK
+  const isMatchPass =
+    formData.password &&
+    formData.confirm_password &&
+    formData.password === formData.confirm_password;
+
+  // INSTITUTES LIST
   const institutes = [
+    {
+      name: "Select Your Institution",
+      value: "",
+    },
     {
       name: "Dhaka University",
       value: "Dhaka_University",
@@ -33,7 +51,13 @@ const Register = () => {
       value: "CUET",
     },
   ];
+
+  // EDUCATION LEVEL LIST
   const education_levels = [
+    {
+      name: "Select Education Level",
+      value: "",
+    },
     {
       name: "Secondary School Certificate (SSC)",
       value: "Secondary School Certificate (SSC)",
@@ -59,17 +83,26 @@ const Register = () => {
       value: "Bachelor of Arts(BA)",
     },
   ];
+
+  // WORK TIME LIST
   const work_times = [
     {
+      name: "Select Your Work Time",
+      value: "",
+    },
+    {
       name: "Full Time",
-      value: "Full Time",
+      value: "full_time",
     },
     {
       name: "Part Time",
-      value: "Part Time",
+      value: "part_time",
     },
   ];
 
+  const [registerUser, { data, isError }] = useRegisterMutation();
+
+  // GET INPUT VALUE
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevState) => ({
@@ -78,23 +111,35 @@ const Register = () => {
     }));
   };
 
+  // NEXT INTO USER REGISTRATION
   const handleNext = () => {
     setStep((prevStep) => prevStep + 1);
   };
 
+  // BACK TO PREV USER REGISTRATION
   const handlePrevious = () => {
     setStep((prevStep) => prevStep - 1);
   };
 
+  // FORM SUBMIT AND REGISTER A USER
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formData);
-    console.log("hello");
+    registerUser(formData);
+    setFormData(initialFormDataState);
+    setStep((prevStep) => prevStep + 1);
+
+    // TOAST SUCCESS MESSAGE
+    if (data?.status) {
+      toast.success(data?.message);
+    }
+
+    // TOAST ERROR MESSAGE
+    if (isError) {
+      toast.error("Sorry, Have an error!");
+    }
   };
 
-  // console.log("hello");
-  // console.log(formData);
-
+  // RENDER THE USER REGISTRATION PROCESS IN STEP BY STEP
   const renderStep = () => {
     switch (step) {
       case 1:
@@ -119,6 +164,7 @@ const Register = () => {
                 value={formData.full_name}
                 onChange={handleInputChange}
                 placeholder="Full Name"
+                required
               />
             </div>
             <div className="my-3">
@@ -132,6 +178,7 @@ const Register = () => {
                 value={formData.email}
                 onChange={handleInputChange}
                 placeholder="Enter your Email"
+                required
               />
             </div>
             <div className="my-3">
@@ -143,6 +190,7 @@ const Register = () => {
                 name="position"
                 onChange={handleInputChange}
                 value={formData.position}
+                required
               >
                 <option>Select Position</option>
                 <option value={"teacher"}>Teacher</option>
@@ -240,6 +288,7 @@ const Register = () => {
                 value={formData.password}
                 onChange={handleInputChange}
                 placeholder="Enter Password"
+                required
               />
             </div>
             <div className="my-3">
@@ -253,6 +302,7 @@ const Register = () => {
                 value={formData.confirm_password}
                 onChange={handleInputChange}
                 placeholder="Confirm Password"
+                required
               />
             </div>
             <div className="flex items-center justify-between gap-5 my-5">
@@ -263,9 +313,12 @@ const Register = () => {
                 Previous
               </button>
               <button
-                onClick={handleNext}
-                className="border bg-[#6078EA] text-white w-full py-3 rounded-md font-semibold"
+                // onClick={handleNext}
+                className={`border bg-[#6078EA] text-white w-full py-3 rounded-md font-semibold ${
+                  !isMatchPass && "bg-gray-500"
+                }`}
                 type="submit"
+                disabled={!isMatchPass}
               >
                 Confirm
               </button>
