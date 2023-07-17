@@ -4,6 +4,9 @@ import Dashboard from "../layouts/Dashboard/Dashboard";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
+import TeacherDashboard from "../pages/Dashboard/Teacher/TeacherDashboard";
+import StudentDashboard from "../pages/Dashboard/Student/StudentDashboard";
+import Register2 from "../pages/Register/Register2";
 
 const routes = createBrowserRouter([
   {
@@ -21,7 +24,7 @@ const routes = createBrowserRouter([
       },
       {
         path: "register",
-        element: <Register />,
+        element: <Register2 />,
       },
     ],
   },
@@ -31,11 +34,11 @@ const routes = createBrowserRouter([
     children: [
       {
         path: "teacher",
-        element: <div>Teacher</div>,
+        element: <TeacherDashboard />,
       },
       {
         path: "student",
-        element: <div>student</div>,
+        element: <StudentDashboard />,
       },
     ],
   },

@@ -1,19 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { AiOutlineCheck } from "react-icons/ai";
+import { useForm } from "react-hook-form";
 
-const Register = () => {
+const Register2 = () => {
   const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({
-    full_name: "",
-    email: "",
-    position: "",
-    institution_name: "",
-    education_level: "",
-    work_time: "",
-    password: "",
-    confirm_password: "",
-  });
+
+  const { register, handleSubmit, setValue } = useForm();
 
   const institutes = [
     {
@@ -70,14 +62,6 @@ const Register = () => {
     },
   ];
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
   const handleNext = () => {
     setStep((prevStep) => prevStep + 1);
   };
@@ -86,14 +70,9 @@ const Register = () => {
     setStep((prevStep) => prevStep - 1);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(formData);
-    console.log("hello");
+  const onSubmit = (data) => {
+    console.log(data);
   };
-
-  // console.log("hello");
-  // console.log(formData);
 
   const renderStep = () => {
     switch (step) {
@@ -116,9 +95,8 @@ const Register = () => {
                 className="border border-[#333333] text-[#333333] rounded-md px-3 py-2 w-full outline-none mt-2"
                 type="text"
                 name="full_name"
-                value={formData.full_name}
-                onChange={handleInputChange}
                 placeholder="Full Name"
+                {...register("fullName")}
               />
             </div>
             <div className="my-3">
@@ -129,9 +107,8 @@ const Register = () => {
                 className="border border-[#333333] text-[#333333] rounded-md px-3 py-2 w-full outline-none mt-2"
                 type="email"
                 name="email"
-                value={formData.email}
-                onChange={handleInputChange}
                 placeholder="Enter your Email"
+                {...register("email")}
               />
             </div>
             <div className="my-3">
@@ -141,16 +118,14 @@ const Register = () => {
               <select
                 className="select select-bordered w-full border border-[#333333] mt-2"
                 name="position"
-                onChange={handleInputChange}
-                value={formData.position}
+                {...register("position")}
               >
                 <option>Select Position</option>
                 <option value={"teacher"}>Teacher</option>
                 <option value={"student"}>Student</option>
               </select>
             </div>
-            {(formData.position === "student" ||
-              formData.position === "teacher") && (
+            { (
               <div className="my-3">
                 <label className="font-semibold" htmlFor="institution_name">
                   Institute Name
@@ -158,8 +133,7 @@ const Register = () => {
                 <select
                   className="select select-bordered w-full border border-[#333333] mt-2"
                   name="institution_name"
-                  onChange={handleInputChange}
-                  value={formData.institution_name}
+                  {...register("institution_name")}
                 >
                   {institutes.map((institute, i) => (
                     <option key={i} value={institute.value}>
@@ -169,7 +143,7 @@ const Register = () => {
                 </select>
               </div>
             )}
-            {formData.position === "student" && (
+            { (
               <div className="my-3">
                 <label className="font-semibold" htmlFor="education_level">
                   Education level
@@ -177,8 +151,7 @@ const Register = () => {
                 <select
                   className="select select-bordered w-full border border-[#333333] mt-2"
                   name="education_level"
-                  onChange={handleInputChange}
-                  value={formData.education_level}
+                  {...register("education_level")}
                 >
                   {education_levels.map((education, i) => (
                     <option key={i} value={education.value}>
@@ -189,7 +162,7 @@ const Register = () => {
               </div>
             )}
 
-            {formData.position === "teacher" && (
+            {(
               <div className="my-3">
                 <label className="font-semibold" htmlFor="work_time">
                   Work Time
@@ -197,8 +170,7 @@ const Register = () => {
                 <select
                   className="select select-bordered w-full border border-[#333333] mt-2"
                   name="work_time"
-                  onChange={handleInputChange}
-                  value={formData.work_time}
+                  {...register("work_time")}
                 >
                   {work_times.map((work, i) => (
                     <option key={i} value={work.value}>
@@ -237,9 +209,8 @@ const Register = () => {
                 className="border border-[#333333] text-[#333333] rounded-md px-3 py-2 w-full outline-none mt-2"
                 type="password"
                 name="password"
-                value={formData.password}
-                onChange={handleInputChange}
                 placeholder="Enter Password"
+                {...register("password")}
               />
             </div>
             <div className="my-3">
@@ -250,9 +221,8 @@ const Register = () => {
                 className="border border-[#333333] text-[#333333] rounded-md px-3 py-2 w-full outline-none mt-2"
                 type="password"
                 name="confirm_password"
-                value={formData.confirm_password}
-                onChange={handleInputChange}
                 placeholder="Confirm Password"
+                {...register("confirm_password")}
               />
             </div>
             <div className="flex items-center justify-between gap-5 my-5">
@@ -272,32 +242,6 @@ const Register = () => {
             </div>
           </div>
         );
-      case 3:
-        return (
-          <div className="lg:max-w-1/2 lg:w-1/2 mx-auto px-5">
-            <div className="steps steps-vertical lg:steps-horizontal w-full">
-              <p className="step step-primary">Information</p>
-              <p className="step step-primary">Security</p>
-              <p className="step step-primary">Confirmation</p>
-            </div>
-
-            <div className="mt-10 mb-5 flex items-center justify-center w-[200px] h-[200px] rounded-full bg-[#6078EA] border-[15px] border-[#CFD7F9] mx-auto">
-              <AiOutlineCheck size={70} color="white" />
-            </div>
-            <p className="text-center text-2xl font-semibold">Thank You</p>
-            <p className="text-[#9F9F9F] text-center w-48 mx-auto">
-              Account Has Been Created. Enjoy Job Task.{" "}
-            </p>
-            <div className="flex justify-center">
-              <Link
-                to={"/dashboard"}
-                className="border border-[#6078EA] rounded-md py-2 px-6 font-semibold text-[#6078EA] inline-block my-10"
-              >
-                Go To Home
-              </Link>
-            </div>
-          </div>
-        );
       default:
         return null;
     }
@@ -305,15 +249,12 @@ const Register = () => {
 
   return (
     <div className="container mx-auto text-[#333333] mt-10">
-      <form onSubmit={handleSubmit}>{renderStep()}</form>
+      <form onSubmit={handleSubmit(onSubmit)}>{renderStep()}</form>
 
       {(step === 1 || step === 2) && (
         <p className="font-semibold text-center text-[#000000]">
           Already Have An Account?{" "}
-          <Link
-            to={"/login"}
-            className="font-semibold text-[#6078EA] underline"
-          >
+          <Link to={"/login"} className="font-semibold text-[#6078EA] underline">
             Log In
           </Link>
         </p>
@@ -322,4 +263,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Register2;
